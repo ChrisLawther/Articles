@@ -12,7 +12,7 @@ At it's simplest, [OperationQueue][4] provides a mechanism for queueing up items
 let queue = OperationQueue()
 
 queue.addOperation {
-	// Code that does some significant work
+    // Code that does some significant work
 }
 
 queue.waitUntilAllOperationsAreFinished()
@@ -28,17 +28,17 @@ A [DispatchGroup][2] provides a way to perform a set of tasks and call a handler
 let group = DispatchGroup()
 
 group.notify(queue: .main) {
-	print("All download tasks have completed")
+    print("All download tasks have completed")
 }
 
 for url in urls {
-	group.enter()
-	URLSession.shared.downloadTask(with: url, completionHandler: { (tempURL, response, error) in
-		// Handle the response/error
-		...
-		// Signal that we have finished
-		group.leave()
-	}).resume()
+    group.enter()
+    URLSession.shared.downloadTask(with: url, completionHandler: { (tempURL, response, error) in
+        // Handle the response/error
+        ...
+        // Signal that we have finished
+        group.leave()
+    }).resume()
 }
 
 ```

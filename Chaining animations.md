@@ -113,6 +113,7 @@ Next, we need a way to invoke the chain as a whole, by walking down the chain fr
 
 There's one final thing though. We haven't implemented `.block` on `AnimationPhase` yet. That needs to merge the previously unknown completion with the specification of the current link to produce a runnable closure:
 
+```swift
 extension ChainingAnimator.AnimationPhase {
     func block(withCompletion completion: @escaping () -> Void) -> () -> Void {
         switch self {
@@ -139,6 +140,7 @@ extension ChainingAnimator.AnimationPhase {
         }
     }
 }
+```
 
 The completed code is available [as a gist on GitHub][1]
 

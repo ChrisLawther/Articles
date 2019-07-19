@@ -73,7 +73,7 @@ This is already much more straightforward and arguably doesn't need simplifying,
 
 ```swift
 protocol NibInitializable {
-	static var nibName: String { get }
+    static var nibName: String { get }
 }
 
 extension NibInitializable {
@@ -83,12 +83,12 @@ extension NibInitializable {
 
 extension NibInitializable {
     static func fromNib() -> Self {
-    	guard let view = Bundle.main.loadNibNamed(nibName,
-    	                                          owner: nil,
-    	                                          options: nil)!.first as? Self else {
-    	    fatalError("Couldn't instantiate view from nib \(nibName)")
-		}
-		return view
+        guard let view = Bundle.main.loadNibNamed(nibName,
+                                                  owner: nil,
+                                                  options: nil)!.first as? Self else {
+            fatalError("Couldn't instantiate view from nib \(nibName)")
+        }
+        return view
     }
 }
 ```
@@ -98,12 +98,12 @@ Once again, in most cases opting-in requires simply claiming conformance to the 
 ```swift
 extension UIView {
     class func fromNib<T: UIView>() -> T {
-    	guard let view = Bundle.main.loadNibNamed(String(describing: Self),
-    	                                          owner: nil,
-    	                                          options: nil)!.first as? Self else {
-    	    fatalError("Couldn't instantiate view from nib \(nibName)")
-		}
-		return view
+        guard let view = Bundle.main.loadNibNamed(String(describing: Self),
+                                                  owner: nil,
+                                                  options: nil)!.first as? Self else {
+            fatalError("Couldn't instantiate view from nib \(nibName)")
+        }
+        return view
     }
 }
 ```

@@ -13,21 +13,21 @@ The default way to post and be notified of a custom notification might look some
 
 ```swift
 struct MyNotification {
-	let status: Int
-	let message: String
+    let status: Int
+    let message: String
 }
 
 // Register a block for handling notifications. Don't forget to
 // remove the observer when we are deallocated though!
 
 let observer = NotificationCenter.default.addObserver(forName: "MyNotificationDidUpdate") { note in
-	guard let msg = note.object as? MyNotification else {
-		// We received a notification with the right name, but an unexpected
-		// object type was attached to it
-		return
-	}
-	
-	// Handle msg
+    guard let msg = note.object as? MyNotification else {
+        // We received a notification with the right name, but an unexpected
+        // object type was attached to it
+        return
+    }
+    
+    // Handle msg
 }
 
 // Post
@@ -62,7 +62,7 @@ We could use a constant for the identifier, but should we have to? We already kn
 
 ```swift
 protocol Postable {
-	static var name: Notification.Name { get }
+    static var name: Notification.Name { get }
 }
 
 extension NotificationCenter {
@@ -84,11 +84,11 @@ With that in place, sending and receiving our previous notification becomes:
 
 ```swift
 extension MyNotification {
-	static let name = Notification.Name("MyNotificationDidUpdate")
+    static let name = Notification.Name("MyNotificationDidUpdate")
 }
 
 var token = NotificationCenter.default.addObserver { (notification: MyNotification) in
-	print("Received '\(notification.message) with status \(notification.status)")
+    print("Received '\(notification.message) with status \(notification.status)")
 }
 
 let notification = MyNotification(status: 1, message: "Download complete")
