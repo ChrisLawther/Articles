@@ -154,6 +154,66 @@ There is definitely scope for improving this approach as it currently has a coup
 
  * The sender of a System notification is inaccessible
  * We can't set the sender (`.object`)
+ 
+## Custom notifications, improved version
+
+This approach aims to:
+
+ * facilitate the convenient, type-safe sending and receiving of custom notifications
+ * preserve the option of reporting the sending object
+ * not require sub-classing NSNotification
+
+To achieve that, we wrap the custom notification type in a struct along with the sender:
+
+```swift
+struct NotificationWrapper<T> {
+    let sender: Any?
+    let notification: T
+}
+```
+
+We define a protocol for custom notification types to adopt and extend `NotificationCenter` to make posting and observing these custom notifications whilst transparently wrapping and unwrapping them:
+
+```swift
+protocol CustomNotification {
+    static var notificationName: Notification.Name { get }
+}
+
+extension NotificationCenter {
+    func post<T: CustomNotification>(notification: T, sender: Any? = nil) {
+        let wrapped = NotificationWrapper(sender: sender, notification: notification)
+        post(name: T.notificationName, object: wrapped)
+    }
+
+    func addObserver<T: CustomNotification>(using block: @escaping (Any?, T) -> ()) -> Token {
+        return Token(token: addObserver(forName: T.notificationName, object: nil, queue: nil, using: { note in
+            guard let wrapped = note.object as? NotificationWrapper<T> else { return }
+            block(wrapped.sender, wrapped.notification)
+        }), center: self)
+    }
+}
+```
+
+With that in place, we can define and send and receive our custom notifications and the associated sender:
+
+```swift
+struct MyNotification {
+    let status: Int
+    let message: String
+}
+
+extension MyNotification: CustomNotification {
+    static let notificationName = Notification.Name("MyNotificationDidHappen")
+}
+
+var token = NotificationCenter.default.addObserver { (sender: Any?, notification: MyNotification) in
+    print("\(sender) says \(notification.status) \(notification.message)")
+}
+
+let note = MyNotification(status: 123, message: "Looking good")
+
+NotificationCenter.default.post(notification: note, sender: self)
+```
 
 [1]: https://talk.objc.io/episodes/S01E27-typed-notifications-part-1
 [2]: https://talk.objc.io
