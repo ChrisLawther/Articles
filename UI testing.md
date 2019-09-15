@@ -113,7 +113,7 @@ As our UI tests run as a separate process to the app which we are testing, the b
 
 ![UI test target membership][2]
 
-[2]: "./uiTestingTargetMembership.png"
+[2]: ./uiTestingTargetMembership.png
 
 With those in place we can pass model data from our UI-test function to our app at launch:
 
