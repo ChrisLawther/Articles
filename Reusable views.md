@@ -1,6 +1,6 @@
 # Reusable views
 
-For performance reasons, `UITableView` (and `UICollectionView` ?) has a mechanism for reusing cells as the view is scrolled. Cells for rows going out of view are added to a pool of cells available for reusing by other rows as they come into view. Custom cells created programatically or loaded from NIBs can be opted-in to this mechanism by registering them with the `UITableView` in which they will appear. This mechanism exists for both rows and headers/footers:
+For performance reasons, `UITableView` and `UICollectionView` have a mechanism for reusing cells as the view is scrolled. Cells for rows going out of view are added to a pool of cells available for reusing by other rows as they come into view. Custom cells created programatically or loaded from NIBs can be opted-in to this mechanism by registering them with the `UITableView` in which they will appear. This mechanism exists for both rows and headers/footers:
 
 ```swift
 // Cells
