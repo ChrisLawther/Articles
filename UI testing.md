@@ -94,7 +94,7 @@ init(window: UIWindow) {
 
 NOTE: `.fromStoryboard()` is from an extension `StoryboardInitializable`, described in [Loading views and view controllers][1]
 
-[1]: "Loading%20views%20and%20view%20controllers.md"
+[1]: ./Loading%20views%20and%20view%20controllers.md
 
 Passing data at the commandline
 -------------------------------
